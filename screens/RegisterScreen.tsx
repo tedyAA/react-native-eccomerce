@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import api from '../api/auth';
+import api from '../api/users/auth';
 
 export const RegisterScreen = () => {
   const [firstName, setFirstName] = useState('');

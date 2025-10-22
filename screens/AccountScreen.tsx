@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
-import auth from '../api/auth';
+import auth from '../api/users/auth';
 import { useNavigation } from '@react-navigation/native';
 
 export const AccountScreen = () => {
@@ -11,10 +11,7 @@ export const AccountScreen = () => {
 
   useEffect(() => {
     (async () => {
-      console.log('im here');
       const currentUser = await auth.current();
-      console.log('User');
-      console.log(currentUser);
       setUser(currentUser);
       setLoading(false);
     })();
