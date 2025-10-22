@@ -1,19 +1,35 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../api/auth';
 
 export const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert('Error', 'Please enter both email and password');
       return;
     }
-    Alert.alert('Success', `Logged in with: ${email}`);
+
+    setLoading(true);
+
+    try {
+      const response = await api.login(email, password);
+      const token = response.data.token;
+      await AsyncStorage.setItem('auth_token', token);
+      navigation.navigate('Account');
+    } catch (err: any) {
+      console.error(err);
+      Alert.alert('Login Failed', err.response?.data?.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,9 +56,10 @@ export const LoginScreen = () => {
       />
 
       <TouchableOpacity
-        className="mb-4 h-12 items-center justify-center rounded-xl bg-blue-500"
-        onPress={handleLogin}>
-        <Text className="text-lg font-bold text-white">Log In</Text>
+        className={`mb-4 h-12 items-center justify-center rounded-xl ${loading ? 'bg-blue-700' : 'bg-blue-500'}`}
+        onPress={handleLogin}
+        disabled={loading}>
+        <Text className="text-lg font-bold text-white">{loading ? 'Logging in...' : 'Log In'}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>
