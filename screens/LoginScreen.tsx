@@ -23,7 +23,7 @@ export const LoginScreen = () => {
       const response = await api.login(email, password);
       const token = response.data.token;
       await AsyncStorage.setItem('auth_token', token);
-      navigation.navigate('Account');
+      navigation.navigate('Main');
     } catch (err: any) {
       console.error(err);
       Alert.alert('Login Failed', err.response?.data?.message || 'Something went wrong');
