@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, TouchableOpacity, Alert } from 'react-native';
+import {
+  StyleSheet,
+  ImageBackground,
+  View,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../api/users/auth';
@@ -33,41 +41,49 @@ export const LoginScreen = () => {
   };
 
   return (
-    <View className="flex-1 justify-center bg-gray-900 px-8">
-      <Text className="mb-12 text-center text-4xl font-bold text-white">Login</Text>
+    <ImageBackground
+      source={require('../assets/login-bg.jpg')}
+      style={StyleSheet.absoluteFillObject}
+      className="p-6"
+      resizeMode="cover">
+      <View className="flex-1 justify-center p-6 px-8">
+        <Text className="mb-12 text-center text-4xl font-bold">Login</Text>
 
-      <TextInput
-        className="mb-4 h-12 rounded-xl bg-gray-800 px-4 text-white"
-        placeholder="Email"
-        placeholderTextColor="#aaa"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+        <TextInput
+          className="mb-4 h-12 rounded-xl bg-blue-100 px-4 text-black"
+          placeholder="Email"
+          placeholderTextColor="#aaa"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
 
-      <TextInput
-        className="mb-6 h-12 rounded-xl bg-gray-800 px-4 text-white"
-        placeholder="Password"
-        placeholderTextColor="#aaa"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+        <TextInput
+          className="mb-6 h-12 rounded-xl bg-blue-100 px-4 text-black"
+          placeholder="Password"
+          placeholderTextColor="#aaa"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
 
-      <TouchableOpacity
-        className={`mb-4 h-12 items-center justify-center rounded-xl ${loading ? 'bg-blue-700' : 'bg-blue-500'}`}
-        onPress={handleLogin}
-        disabled={loading}>
-        <Text className="text-lg font-bold text-white">{loading ? 'Logging in...' : 'Log In'}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          className={`mb-4 h-12 items-center justify-center rounded-xl ${loading ? 'bg-blue-700' : 'bg-blue-500'}`}
+          onPress={handleLogin}
+          disabled={loading}>
+          <Text className="text-lg font-bold text-white">
+            {loading ? 'Logging in...' : 'Log In'}
+          </Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text className="mt-4 text-center text-blue-400">Don't have an account? Register</Text>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Text className="text-center text-gray-400">Forgot Password?</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <Text className="mt-4 text-center text-blue-400">Don't have an account? Register</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text className="text-center text-gray-500">Forgot Password?</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
